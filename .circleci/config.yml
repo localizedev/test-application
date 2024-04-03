@@ -20,17 +20,17 @@ jobs:
             doctl auth init --access-token  $DIGITALOCEAN_REGISTRY_ACCESS_TOKEN
             doctl account get
       - run:
-          name: Build Docker image
-          command: |
-            docker build -t registry.digitalocean.com/dockerregistry31a50f38/test-application:latest .
-      - run:
           name: Login to DigitalOcean Registry
           command: |
             doctl registry login
       - run:
+          name: Build Docker image
+          command: |
+            docker build -t $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
+      - run:
           name: Push Docker image to DigitalOcean Registry
           command: |
-            docker push registry.digitalocean.com/dockerregistry31a50f38/test-application:latest
+            docker push $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
 
 workflows:
   my-workflow:
