@@ -11,11 +11,17 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build and Push Docker image
+          name: Build Docker image
           command: |
-            echo $DIGITALOCEAN_REGISTRY_NAME
-            echo $DIGITALOCEAN_REGISTRY_USERNAME
-            
+            docker build -t $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG .
+      - run:
+          name: Login to DigitalOcean Registry
+          command: |
+            echo $DIGITALOCEAN_REGISTRY_ACCESS_TOKEN | docker login -u $DIGITALOCEAN_REGISTRY_USERNAME --password-stdin $DIGITALOCEAN_REGISTRY_URL
+      - run:
+          name: Push Docker image to DigitalOcean Registry
+          command: |
+            docker push $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
 
 workflows:
   my-workflow:
