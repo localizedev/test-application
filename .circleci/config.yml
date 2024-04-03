@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG .
+            docker build -t registry.digitalocean.com/dockerregistry31a50f38/test-application:latest .
       - run:
           name: Login to DigitalOcean Registry
           command: |
@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Push Docker image to DigitalOcean Registry
           command: |
-            docker push $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
+            docker push registry.digitalocean.com/dockerregistry31a50f38/test-application:latest
 
 workflows:
   my-workflow:
