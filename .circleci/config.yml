@@ -11,4 +11,8 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - hello-job
+      - hello-job:
+          filters:
+            branches:
+              only:
+                - master
