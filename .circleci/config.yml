@@ -1,18 +1,33 @@
 version: 2.1
 
 jobs:
-  hello-job:
+  build_and_push:
     docker:
-      - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
+      - image: cimg/node:20.12.0
+    environment:
+      TAG: latest
     steps:
-      - checkout # check out the code in the project directoryyyyy
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t ${DIGITALOCEAN_REGISTRY_NAME}/test-application:${TAG} .
+      - run:
+          name: Login to DigitalOcean Registry
+          command: |
+            echo "${DIGITALOCEAN_REGISTRY_ACCESS_TOKEN}" | docker login -u "${DIGITALOCEAN_REGISTRY_USERNAME}" --password-stdin ${DIGITALOCEAN_REGISTRY_URL}
+      - run:
+          name: Push Docker image to DigitalOcean Registry
+          command: |
+            docker push ${DIGITALOCEAN_REGISTRY_NAME}/test-application:${TAG}
 
 workflows:
   my-workflow:
     jobs:
-      - hello-job:
+      - build_and_push:
           filters:
             branches:
               only:
-                - master
+                - egor_dev
