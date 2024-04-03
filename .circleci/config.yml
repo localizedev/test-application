@@ -13,9 +13,9 @@ jobs:
       - run:
           name: Build and Push Docker image
           command: |
-            docker build -t $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG .
-            echo "$DIGITALOCEAN_REGISTRY_ACCESS_TOKEN" | docker login -u "$DIGITALOCEAN_REGISTRY_USERNAME" --password-stdin $DIGITALOCEAN_REGISTRY_URL
-            docker push $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
+            echo $DIGITALOCEAN_REGISTRY_NAME
+            echo $DIGITALOCEAN_REGISTRY_USERNAME
+            
 
 workflows:
   my-workflow:
