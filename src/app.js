@@ -8,7 +8,7 @@ app.get("/healthcheck", (req, res, next) => {
 });
 
 app.get("/", (req, res, next) => {
-  res.send("It works!");
+  res.send("It works again!");
 });
 
 app.listen(port, () => {
