@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: cimg/node:20.12.0
     environment:
+      IMAGE_NAME: test-application
       TAG: latest
     steps:
       - checkout
@@ -26,11 +27,11 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
+            docker build -t $DIGITALOCEAN_REGISTRY_NAME/$IMAGE_NAME:$TAG
       - run:
           name: Push Docker image to DigitalOcean Registry
           command: |
-            docker push $DIGITALOCEAN_REGISTRY_NAME/test-application:$TAG
+            docker push $DIGITALOCEAN_REGISTRY_NAME/$IMAGE_NAME:$TAG
 
 workflows:
   my-workflow:
